@@ -72,7 +72,9 @@ function App() {
       setGame({...game, "gameState": 3})
 }}, [hidden])
 
-  useEffect(()=>{(checkGuess(game.guess))},[game.guess])
+  useEffect(()=>{
+    if (game.gameState !== 2) {
+    (checkGuess(game.guess))}},[game.guess])
   function Game(hidden_word, guess) {
           if ((game.word.includes(guess))===false) {
               if (tries > 1) {
