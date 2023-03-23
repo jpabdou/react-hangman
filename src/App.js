@@ -12,7 +12,7 @@ function App() {
   };
   
   let wordData =Randomizer(words)
-  let initialGame= {word: wordData[0], guess: "", warning: null, gameState: 4}
+  let initialGame= {word: wordData[0].toLowerCase(), guess: "", warning: null, gameState: 4}
 
   
   function gameStart() {
@@ -84,7 +84,6 @@ function App() {
                   else {
                         let newHidden = Replacer(hidden_word, guess)
                         setHidden(newHidden)
-                        console.log(hidden)
 }}
 const messages = [`Yay! You got it! It's ${game.word}.`, 
 `Hidden word is: ${hidden}. Sorry! Letter not found. You have ${tries} tries left.`, 
@@ -97,12 +96,13 @@ return (
   <div>
   <h1>Good Luck!</h1>
   <h2>{messages[game.gameState]}</h2>        
-    
+    {(game.gameState !== 2 && game.gameState !== 0) ?
     <form onSubmit={(e) => {
         e.preventDefault();
-        if (game.gameState !== 2 || game.gameState !== 0) {
-        setGuessHist([...guessHist, game.guess])
-        (Game(hidden,game.guess))}
+        if (!(guessHist.includes(game.guess))) {
+          setGuessHist([...guessHist, game.guess])
+          Game(hidden,game.guess)
+        }
         }}>
       <p>{game.warning}</p>
       <label>Enter your guess (1 lowercase letter) for {hidden}:
@@ -113,7 +113,8 @@ return (
         setGame({...game, "guess": e.target.value})} />
       </label>
       <input disabled={disabled} type="submit" />
-    </form>
+    </form> : null
+    }
     <p>{`Your guesses so far: ${guessHist}`}</p>
     <img src={require(`./Images/${tries}.jpg`)} alt="hangman image"></img>
     {game.gameState === 0 || game.gameState === 2 ? <button onClick={()=>{
