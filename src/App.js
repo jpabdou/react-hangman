@@ -42,19 +42,21 @@ function App() {
   function checkGuess(string) {
     const charCode = string.charCodeAt(0)
     var guessLength = string.length;
-    if (charCode !== 0) {
-      if (charCode < 97 || charCode > 122) {
-        setDisabled(true)
-        setGame({...game, "warning": `Please use lowercase letters only. Character Submitted: ${string}`})
-      } else {
-        if (guessLength > 1) {
+    if (game.gameState !== 2) {
+      if (charCode !== 0) {
+        if (charCode < 97 || charCode > 122) {
           setDisabled(true)
-          setGame({...game, "warning": `Please use 1 lowercase letter only. Letter Count: ${guessLength}`})
-        }
-          else {
-            setDisabled(false)
-            setGame({...game, "warning": null})
+          setGame({...game, "warning": `Please use lowercase letters only. Character Submitted: ${string}`})
+        } else {
+          if (guessLength > 1) {
+            setDisabled(true)
+            setGame({...game, "warning": `Please use 1 lowercase letter only. Letter Count: ${guessLength}`})
           }
+            else {
+              setDisabled(false)
+              setGame({...game, "warning": null})
+            }
+        }
       }
     }
   }
@@ -72,9 +74,7 @@ function App() {
       setGame({...game, "gameState": 3})
 }}, [hidden])
 
-  useEffect(()=>{
-    if (game.gameState !== 2) {
-    (checkGuess(game.guess))}},[game.guess])
+  useEffect(()=>{(checkGuess(game.guess))},[game.guess])
   function Game(hidden_word, guess) {
           if ((game.word.includes(guess))===false) {
               if (tries > 1) {
