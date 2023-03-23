@@ -100,7 +100,7 @@ return (
     
     <form onSubmit={(e) => {
         e.preventDefault();
-        if (game.gameState !== 2) {
+        if (game.gameState !== 2 || game.gameState !== 0) {
         setGuessHist([...guessHist, game.guess])
         (Game(hidden,game.guess))}
         }}>
