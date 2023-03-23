@@ -42,24 +42,21 @@ function App() {
   function checkGuess(string) {
     const charCode = string.charCodeAt(0)
     var guessLength = string.length;
-    if (game.gameState !== 2) {
-      if (charCode !== 0) {
-        if (charCode < 97 || charCode > 122) {
-          setDisabled(true)
-          setGame({...game, "warning": `Please use lowercase letters only. Character Submitted: ${string}`})
+    if (charCode !== 0) {
+      if (charCode < 97 || charCode > 122) {
+        setDisabled(true)
+        setGame({...game, "warning": `Please use lowercase letters only. Character Submitted: ${string}`})
+      } else {
+        if (guessLength == 1) {
+          setDisabled(false)
+          setGame({...game, "warning": null})
         } else {
-          if (guessLength > 1) {
-            setDisabled(true)
+             setDisabled(true)
             setGame({...game, "warning": `Please use 1 lowercase letter only. Letter Count: ${guessLength}`})
           }
-            else {
-              setDisabled(false)
-              setGame({...game, "warning": null})
-            }
-        }
       }
     }
-  }
+}
 
   const [game, setGame] = useState({...initialGame})
   const [tries, setTries] = useState(6)
@@ -103,8 +100,9 @@ return (
     
     <form onSubmit={(e) => {
         e.preventDefault();
+        if (game.gameState !== 2) {
         setGuessHist([...guessHist, game.guess])
-        (Game(hidden,game.guess))
+        (Game(hidden,game.guess))}
         }}>
       <p>{game.warning}</p>
       <label>Enter your guess (1 lowercase letter) for {hidden}:
